@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.tests'
+version = '1.0-SNAPSHOT'
+
+dependencies {
+    implementation libs.junit.junit
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'io.rest-assured:rest-assured:5.3.0'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
+    testImplementation 'io.rest-assured:json-path:5.3.0'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty "file.encoding", "UTF-8"
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
+}

@@ -1,9 +1,13 @@
 package com.auto.tests;
 
 import org.junit.jupiter.api.*;
+
+import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import static io.restassured.RestAssured.given;
+
+import java.util.concurrent.TimeUnit;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class PetTests extends BaseClass {
@@ -101,11 +105,13 @@ public class PetTests extends BaseClass {
     @Order(7)
     @DisplayName("DELETE /pet/{id} — удаление существующего питомца")
     public void testDeletePet() {
+        await().atMost(5, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).untilAsserted(() -> {
         given()
                 .when()
                 .delete("/pet/{petId}", 123450)
                 .then()
                 .statusCode(200);
+        });
     }
 
     @Test

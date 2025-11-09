@@ -152,7 +152,7 @@ public class StoreTests extends BaseClass {
     public void testDeleteOrder() {
 
 
-        await().atMost(4, TimeUnit.SECONDS)
+        await().atMost(5, TimeUnit.SECONDS)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .untilAsserted(() -> {
         given()

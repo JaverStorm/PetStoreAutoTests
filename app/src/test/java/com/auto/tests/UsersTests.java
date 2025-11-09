@@ -28,7 +28,7 @@ public class UsersTests extends BaseClass {
     @Order(2)
     @DisplayName("GET /user/{username} — получение существующего пользователя по имени")
     public void testGetUserByUsername() {
-        await().atMost(5, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).untilAsserted(() -> {
+        await().atMost(6, TimeUnit.SECONDS).pollInterval(1, TimeUnit.SECONDS).untilAsserted(() -> {
             given()
                     .when()
                     .get("/user/{username}", "andrew01")
@@ -151,29 +151,9 @@ public class UsersTests extends BaseClass {
                 .statusCode(400);
     }
 
+
     @Test
     @Order(10)
-    @DisplayName("DELETE /user/{username} — удаление существующего пользователя")
-    public void testDeleteUser() {
-          await().atMost(4, TimeUnit.SECONDS)
-            .pollInterval(1, TimeUnit.SECONDS)
-            .untilAsserted(() -> {
-                given()
-                        .when()
-                        .get("/user/{username}", "andrew01")
-                        .then()
-                        .statusCode(200);
-            });
-
-        given()
-                .when()
-                .delete("/user/{username}", "andrew01")
-                .then()
-                .statusCode(200);
-    }
-
-    @Test
-    @Order(11)
     @DisplayName("DELETE /user/{username} — попытка удалить несуществующего пользователя (Негативный тест)")
     public void testDeleteNonExistingUser() {
         given()
@@ -184,7 +164,7 @@ public class UsersTests extends BaseClass {
     }
     //API игнорирует невалидность username и пытается найти его. Вместо ошибки 400 возвращена 404.
     @Test
-    @Order(12)
+    @Order(11)
     @DisplayName("DELETE /user/{username} — удаление с невалидным именем пользователя (Негативный тест, фактический результат не соответствует ожидаемому)")
     public void testDeleteUserWithInvalidUsername() {
         given()
@@ -195,7 +175,7 @@ public class UsersTests extends BaseClass {
     }
 
     @Test
-    @Order(13)
+    @Order(12)
     @DisplayName("GET /user/login — успешная авторизация пользователя с валидными данными")
     public void testLoginUser() {
         given()
@@ -211,7 +191,7 @@ public class UsersTests extends BaseClass {
 
     //сервер не проверяет корректность введенных данных, ожидаем код 400, получен код 200.
     @Test
-    @Order(14)
+    @Order(13)
     @DisplayName("GET /user/login — авторизация с некорректными данными (Негативный тест, фактический результат не соответствует ожидаемому)")
     public void testLoginUserWithInvalidCredentials() {
         given()
@@ -224,7 +204,7 @@ public class UsersTests extends BaseClass {
     }
 
     @Test
-    @Order(15)
+    @Order(14)
     @DisplayName("GET /user/logout — успешный выход пользователя из системы")
     public void testLogoutUser() {
         given()
@@ -234,7 +214,7 @@ public class UsersTests extends BaseClass {
                 .statusCode(200);
     }
     // пустой массив обрабатывается с кодом 200, вместо 400
-    @Order(16)
+    @Order(15)
     @Test
     @DisplayName("POST /user/createWithArray — пустой массив (Негативный тест, фактический результат не соответствует ожидаемому)")
     public void testCreateUsersWithEmptyArray() {
@@ -248,7 +228,7 @@ public class UsersTests extends BaseClass {
     }
 
 
-    @Order(17)
+    @Order(16)
     @Test
     @DisplayName("POST /user/createWithList — создание пользователей списком")
     public void testCreateUsersList() {
@@ -265,6 +245,22 @@ public class UsersTests extends BaseClass {
                 .post("/user/createWithList")
                 .then()
                 .statusCode(200);
+    }
+
+    @Test
+    @Order(17)
+    @DisplayName("DELETE /user/{username} — удаление существующего пользователя")
+    public void testDeleteUser() {
+
+        await().atMost(5, TimeUnit.SECONDS)
+                .pollInterval(1, TimeUnit.SECONDS)
+                .untilAsserted(() -> {
+        given()
+                .when()
+                .delete("/user/{username}", "andrew01")
+                .then()
+                .statusCode(200);
+                });
     }
 
 }

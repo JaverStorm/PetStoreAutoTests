@@ -31,3 +31,4 @@ jobs:
         with:
           name: test-report
           path: build/reports/tests/test/
+          if-no-files-found: warn

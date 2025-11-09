@@ -29,5 +29,3 @@
 - "StoreTests.java" - автотесты для /store
 - "UsersTests.java" - автотесты для /user
 
-./gradlew test --tests "com.auto.tests.PetTests"   - запуск отдельного теста
-./gradlew test  - запуск всех тестов 
